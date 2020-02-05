@@ -96,11 +96,11 @@ class road(object):
 
 
 def main():
-    # r = road(40,0.22)
-    # r.timePrint(10)
+    r = road(40,0.22)
+    r.timePrint(10)
     # print(' '.join(map(str,r.avg_speed)))
     # print(r.steadyAvgSpeed())
-    print(road.calSteadyAvgSpeed(40,0.22))
+    # print(road.calSteadyAvgSpeed(40,0.22))
 
 main()
 

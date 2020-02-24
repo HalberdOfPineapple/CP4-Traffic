@@ -5,7 +5,7 @@ class road(object):
     def __init__(self,length,density):
         """Initialize the road's length and density"""
         self.cells =  [0] * length if density != 1 else [1] * length
-        self.cars = round(density * length)
+        self.cars = (int)(density * length)
         self.avg_speed = []
 
         if (density <1):
@@ -80,14 +80,6 @@ class road(object):
                         self.avg_speed[-4] == self.avg_speed[-1]) #checking whether the speed is steady
             return self.avg_speed[-1]
 
-    
-    # @classmethod
-    # def calSteadyAvgSpeed(cls,length,density):
-    #     """Class method used to calculate a road's steady average speed given the length 
-    #     and density of the road"""
-    #     temp = road(length,density)
-    #     return temp.steadyAvgSpeed()
-    
     @classmethod
     def calSteadyAvgSpeed(cls,length):
         densities = np.linspace(0,1,200)

@@ -4,66 +4,75 @@ from matplotlib.animation import FuncAnimation
 from Traffic import road
 
 
-class TrafficAnimation(object):
+class TrafficAnimation2(object):
     HEIGHT = 50
     RADIUS = 0.4
 
     def __init__(self,length,density):
-        # set initial and final x coordinates of the graph
+        """set initial and final x coordinates of the graph"""
         self.xpos = 0
         self.xmax = length
         
-        # set number of frames
+        """ set number of frames"""
         self.iter = 500
 
-        # initialize a road object 
+        """initialize a road object""" 
         self.r = road(length,density)
 
     def init(self):
-        # initialiser for animator
+        """initialiser for animator"""
+        self.timeText.set_text('')
         return self.patches
 
     def animate(self, i):
+        """animate function of the animator,used for updating each cell's state"""
         self.r.move()
-        count = 0
+        self.timeText.set_text('The average speed is '+str(self.r.avg_speed[-1])+'\nIteration times: ' + str(i))
+        count = 0 # a counter recording the number of cars or the index of patches
         for j in range(0,self.xmax):
+            """Setting circles in the cells where there are cars."""
             if self.r.cells[j] == 1:
                 xpos = j
-                ypos = 0.5 * TrafficAnimation.HEIGHT + TrafficAnimation.RADIUS
+                ypos = 0.5 * TrafficAnimation2.HEIGHT + TrafficAnimation2.RADIUS
                 self.patches[count].center = (xpos,ypos)
                 count += 1
-        return self.patches
+        return tuple(self.patches) + tuple([self.timeText])
 
     def run(self):
+        """Method to generatate the animation"""
 
+        """Initializing the figure, axes and patches"""
         fig = plt.figure()
         ax = plt.axes()
         self.patches = []
 
+        """Initializing circles in cells where there are cars"""
         for i in range(0,self.xmax):
             if self.r.cells[i] == 1:
-                newCircle = plt.Circle((i,0.5 * TrafficAnimation.HEIGHT + TrafficAnimation.RADIUS),TrafficAnimation.RADIUS,color = 'r',animated = True)
+                newCircle = plt.Circle((i,0.5 * TrafficAnimation2.HEIGHT + TrafficAnimation2.RADIUS),TrafficAnimation2.RADIUS,color = 'r',animated = True)
                 self.patches.append(newCircle)
                 ax.add_patch(newCircle)
         
-        baseRec = plt.Rectangle((0,0),self.xmax,0.5 * TrafficAnimation.HEIGHT,color = 'b',animated = None)
+        """Create a base rectangle in the bottom of the figure"""
+        baseRec = plt.Rectangle((0,0),self.xmax,0.5 * TrafficAnimation2.HEIGHT,color = 'b',animated = None)
         ax.add_patch(baseRec)
 
-        # set up the axes
+        """ set up the axes"""
         ax.axis('scaled')
         ax.set_xlim(self.xpos, self.xmax)
-        ax.set_ylim(0, TrafficAnimation.HEIGHT)
+        ax.set_ylim(0, TrafficAnimation2.HEIGHT)
         ax.set_xlabel('cells of the road (length = ' + str(len(self.r.cells)) + ', total number of cars = '+ str(self.r.cars)+')' )
-        ax.set_ylabel('cars in cells ('+str(0.5*TrafficAnimation.HEIGHT)+' times of 1 or 0)')
+        ax.set_ylabel('cars in cells ('+str(0.5*TrafficAnimation2.HEIGHT)+' times of 1 or 0)')
+        self.timeText = ax.text(1,TrafficAnimation2.HEIGHT - len(self.r.cells)/20,'')
 
-        # create the animator
+        """create the animator"""
         anim = FuncAnimation(fig, self.animate, init_func = self.init, frames = self.iter, repeat = True, interval = 200, blit = True)
 
-        # show the plot
+        """ show the plot """
         plt.show()
 
 def main():
-    s = TrafficAnimation(80,0.35)
+    s = TrafficAnimation2(300,1)
     s.run()
     
 main()

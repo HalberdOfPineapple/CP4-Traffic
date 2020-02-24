@@ -4,20 +4,21 @@ from Traffic import road
 
 class avgSpeedAnalyser(object):
     def __init__(self,length):
+        """Initialize the analyser with the road length"""
         self.roadLength = length
     
     def run(self):
-        vec_avgSpeed = np.vectorize(road.calSteadyAvgSpeed)
-        x = np.linspace(0,100,100)
-        y = vec_avgSpeed(self.roadLength,x/100)
+        """Running method of analyser"""
+        x = np.linspace(0,1,200)
+        y = road.calSteadyAvgSpeed(self.roadLength) #using class method to generate corresponding averafe speed array
         plt.plot(x,y)
-        plt.title('Average speed of transportation')
-        plt.xlabel('Density of traffic')
-        plt.ylabel('Average speed')
+        plt.title('Steady average speed of transportation')
+        plt.xlabel('Density of traffic (the length of road is ' + str(self.roadLength) +')')
+        plt.ylabel('Steady average speed')
         plt.show()
 
 def main():
-    anal = avgSpeedAnalyser(100)
-    anal.run()
+    asa = avgSpeedAnalyser(300)
+    asa.run()
 
 main()

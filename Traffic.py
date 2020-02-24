@@ -73,13 +73,13 @@ class road(object):
         else:
             control = False
             while not control:
-                self.iterate((int)(len(self.cells)/2))                                   # Making sure the cars have moved at least twice
+                self.iterate(max((int)(len(self.cells)/2),10))                                   # Making sure the cars have moved at least twice
                 control = (self.avg_speed[-1] == self.avg_speed[-2] and
                         self.avg_speed[-2] == self.avg_speed[-3] and
                         self.avg_speed[-3] == self.avg_speed[-4] and
-                        self.avg_speed[-4] == self.avg_speed[-1]) #checking whether the speed is steady
+                        self.avg_speed[-4] == self.avg_speed[-5]) #checking whether the speed is steady
             return self.avg_speed[-1]
-
+    
     @classmethod
     def calSteadyAvgSpeed(cls,length):
         densities = np.linspace(0,1,200)

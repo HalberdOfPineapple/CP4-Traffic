@@ -35,6 +35,7 @@ class TrafficAnimation(object):
 
         fig = plt.figure()
         ax = plt.axes()
+        height = TrafficAnimation.HEIGHT
         self.patches = []
 
         """Generating rectangles in each cell where there is a car to represent the state"""
@@ -45,11 +46,11 @@ class TrafficAnimation(object):
         """set up the axes"""
         ax.axis('scaled')
         ax.set_xlim(self.xpos, self.xmax)
-        ax.set_ylim(0, TrafficAnimation.HEIGHT)
+        ax.set_ylim(0, height)
         ax.set_xlabel('cells of the road (length = ' + str(len(self.r.cells)) + ', total number of cars = '+ str(self.r.cars)+')' )
-        ax.set_ylabel('cars in cells ('+str(0.5*TrafficAnimation.HEIGHT)+' times of 1 or 0)')
-        # self.timeText = ax.text(0.02, 0.95, '', transform=ax.transAxes)   
-        self.timeText = ax.text(1,TrafficAnimation.HEIGHT - len(self.r.cells)/20,'')
+        ax.set_ylabel('cars in cells ('+str(0.5*height)+' times of 1 or 0)')
+        # initialize the text positions
+        self.timeText = ax.text(1,height - min(len(self.r.cells)/10,height/2-2),'',fontsize=7.5)
 
         # create the animator
         anim = FuncAnimation(fig, self.animate, init_func = self.init, frames = self.iter, repeat = True, interval = 200, blit = True)
@@ -58,7 +59,7 @@ class TrafficAnimation(object):
         plt.show()
 
 def main():
-    s = TrafficAnimation(100,1)
+    s = TrafficAnimation(120,0.5)
     s.run()
     
 main()

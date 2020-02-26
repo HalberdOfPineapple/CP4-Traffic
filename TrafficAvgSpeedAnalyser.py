@@ -11,6 +11,8 @@ class avgSpeedAnalyser(object):
         """Running method of analyser"""
         x = np.linspace(0,1,200)
         y = road.calSteadyAvgSpeed(self.roadLength) #using class method to generate corresponding averafe speed array
+
+        """Setting up the figure"""
         plt.plot(x,y)
         plt.title('Steady average speed of transportation')
         plt.xlabel('Density of traffic (the length of road is ' + str(self.roadLength) +')')
@@ -18,7 +20,8 @@ class avgSpeedAnalyser(object):
         plt.show()
 
 def main():
-    asa = avgSpeedAnalyser(300)
+    asa = avgSpeedAnalyser(150)
     asa.run()
 
-main()
+if __name__ == '__main__':
+    main()

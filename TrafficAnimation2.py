@@ -8,13 +8,13 @@ class TrafficAnimation2(object):
     HEIGHT = 50
     RADIUS = 0.4
 
-    def __init__(self,length,density):
+    def __init__(self,length,density,iterTimes = 500):
         """set initial and final x coordinates of the graph"""
         self.xpos = 0
         self.xmax = length
         
         """ set number of frames"""
-        self.iter = 500
+        self.iter = iterTimes
 
         """initialize a road object""" 
         self.r = road(length,density)
@@ -69,7 +69,8 @@ class TrafficAnimation2(object):
         self.timeText = ax.text(1,height - min(len(self.r.cells)/10,height/2-2),'',fontsize=7.5)
 
         """create the animator"""
-        anim = FuncAnimation(fig, self.animate, init_func = self.init, frames = self.iter, repeat = True, interval = 200, blit = True)
+        anim = FuncAnimation(fig, self.animate, init_func = self.init, frames = self.iter+1, repeat = False, interval = 200, blit = True)
 
         """ show the plot """
         plt.show()
+

@@ -7,16 +7,16 @@ from Traffic import road
 class TrafficAnimation(object):
     HEIGHT = 50 #Setting the height of graph
 
-    def __init__(self,length,density):
+    def __init__(self,length,density,iterTimes = 500):
         """Initialize the road's length and density, setting 
         final x coordinate to be the length of the road"""
         # set initial and final x coordinates of the graph
         self.xpos = 0.0
         self.xmax = length
         
-        self.iter = 500  #Setting the number of frames
+        self.iter = iterTimes             #Setting the number of frames
 
-        self.r = road(length,density)        # initialize a road object 
+        self.r = road(length,density)     # initialize a road object 
 
     def init(self):
         """initialiser for animator"""
@@ -32,6 +32,7 @@ class TrafficAnimation(object):
         return tuple(self.patches) + tuple([self.timeText])
 
     def run(self):
+        """method for animation running"""
 
         fig = plt.figure()
         ax = plt.axes()
@@ -53,7 +54,7 @@ class TrafficAnimation(object):
         self.timeText = ax.text(1,height - min(len(self.r.cells)/10,height/2-2),'',fontsize=7.5)
 
         # create the animator
-        anim = FuncAnimation(fig, self.animate, init_func = self.init, frames = self.iter, repeat = True, interval = 200, blit = True)
+        anim = FuncAnimation(fig, self.animate, init_func = self.init, frames = self.iter+1, repeat = False, interval = 200, blit = True)
 
         # show the plot
         plt.show()
@@ -62,4 +63,5 @@ def main():
     s = TrafficAnimation(120,0.5)
     s.run()
     
-main()
+if __name__ == '__main__':
+    main()
